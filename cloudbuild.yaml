@@ -21,11 +21,12 @@ steps:
 
      mkdir -p $${KF_DIR}
      cd $${KF_DIR}
-     curl -L -o kubeflow.yaml $${CONFIG_URI}
+     #curl -L -o kubeflow.yaml $${CONFIG_URI}
      #kfctl build -V -f kubeflow.yaml
      #find
      #sed -i "s/gpu-pool-max-nodes: 10/gpu-pool-max-nodes: 0/g" gcp_config/cluster-kubeflow.yaml
-     kfctl apply -V -f kubeflow.yaml
+     #kfctl apply -V -f kubeflow.yaml
+     kfctl apply -V -f $${CONFIG_URI}
 
      echo "Checking status ..."
 
