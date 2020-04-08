@@ -6,7 +6,7 @@ steps:
   - |
      echo "Preparing ..."
 
-     gcloud beta container clusters get-credentials ${_GKE_CLUSTER_NAME} --region ${_REGION} --project ${_ANALYTICS_PROJECT}
+     gcloud beta container clusters get-credentials ${_GKE_CLUSTER_NAME} --zone ${_REGION}-a --project ${_ANALYTICS_PROJECT}
      gcloud config set project ${_ANALYTICS_PROJECT}
      gcloud config set compute/zone "${_REGION}-a"
 
@@ -24,6 +24,7 @@ steps:
      cd $${KF_DIR}
      curl -L -o kubeflow.yaml $${CONFIG_URI}
      kfctl build -V -f kubeflow.yaml
+     find
      rm -rf gcp_config
      kfctl apply -V -f kubeflow.yaml
      STATUS="NO"
