@@ -25,7 +25,7 @@ steps:
      curl -L -o kubeflow.yaml $${CONFIG_URI}
      kfctl build -V -f kubeflow.yaml
      find
-     rm -rf gcp_config .cache
+     sed -i "s/gpu-pool-max-nodes: 10/gpu-pool-max-nodes: 0/g" gcp_config/cluster-kubeflow.yaml
      kfctl apply -V -f kubeflow.yaml
      STATUS="NO"
      while [ "$${STATUS}" != "" ]; do
