@@ -7,9 +7,10 @@ steps:
      echo gcloud beta container clusters get-credentials ${_GKE_CLUSTER_NAME} --region ${_REGION} --project ${_ANALYTICS_PROJECT}
      echo "Initialising, generating and applying configs ..."
      export CONFIG="https://raw.githubusercontent.com/kubeflow/kubeflow/v0.6-branch/bootstrap/config/kfctl_k8s_istio.0.6.2.yaml"
-     export KFAPP="kf-${PROJECT_ID}"
-     kfctl init $${KFAPP} --config=$${CONFIG} -V
-     cd $${KFAPP}
+     export TEMPLATES_DIR="kf-templates"
+     mkdir $${TEMPLATES_DIR}
+     kfctl init $${TEMPLATES_DIR} --config=$${CONFIG} -V
+     cd $${TEMPLATES_DIR}
      echo kfctl generate all -V
      echo kfctl apply all -V
      cd ..
