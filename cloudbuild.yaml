@@ -22,9 +22,10 @@ steps:
 
      mkdir -p $${KF_DIR}
      cd $${KF_DIR}
-     kfctl build -V -f $${CONFIG_URI}
+     curl -L -o kubeflow.yaml $${CONFIG_URI}
+     kfctl build -V -f kubeflow.yaml
      rm -rf gcp_config
-     kfctl apply -V
+     kfctl apply -V -f kubeflow.yaml
      STATUS="NO"
      while [ "$${STATUS}" != "" ]; do
        echo "Monitoring pods until they're all running, this could take a few minutes ..."
