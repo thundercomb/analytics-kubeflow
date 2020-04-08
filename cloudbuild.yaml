@@ -7,7 +7,7 @@ steps:
      echo "Preparing ..."
 
      gcloud config set project ${_ANALYTICS_PROJECT}
-     gcloud config set compute/zone "europe-west1-b-a"
+     gcloud config set compute/zone "europe-west1-b"
 
      CONFIG_URI="${_KFCTL_CONFIG}"
      CLIENT_ID="${_OAUTH_CLIENT_ID}"
