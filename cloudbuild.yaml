@@ -6,7 +6,6 @@ steps:
   - |
      echo "Preparing ..."
 
-     gcloud beta container clusters get-credentials ${_GKE_CLUSTER_NAME} --zone ${_REGION}-a --project ${_ANALYTICS_PROJECT}
      gcloud config set project ${_ANALYTICS_PROJECT}
      gcloud config set compute/zone "${_REGION}-a"
 
@@ -27,6 +26,10 @@ steps:
      find
      sed -i "s/gpu-pool-max-nodes: 10/gpu-pool-max-nodes: 0/g" gcp_config/cluster-kubeflow.yaml
      kfctl apply -V -f kubeflow.yaml
+
+     echo "Checking status ..."
+
+     gcloud beta container clusters get-credentials ${_GKE_CLUSTER_NAME} --zone ${_REGION}-a --project ${_ANALYTICS_PROJECT}
      STATUS="NO"
      while [ "$${STATUS}" != "" ]; do
        echo "Monitoring pods until they're all running, this could take a few minutes ..."
