@@ -8,7 +8,7 @@ steps:
 
      gcloud beta container clusters get-credentials ${_GKE_CLUSTER_NAME} --region ${_REGION} --project ${_ANALYTICS_PROJECT}
      gcloud config set project ${_ANALYTICS_PROJECT}
-     gcloud config set compute/region ${_REGION}
+     gcloud config set compute/zone "${_REGION}-a"
 
      CONFIG_URI="${_KFCTL_CONFIG}"
      CLIENT_ID="${_OAUTH_CLIENT_ID}"
