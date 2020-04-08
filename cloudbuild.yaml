@@ -22,6 +22,8 @@ steps:
 
      mkdir -p $${KF_DIR}
      cd $${KF_DIR}
+     kfctl build -V -f $${CONFIG_URI}
+     rm -rf gcp_config
      kfctl apply -V -f $${CONFIG_URI}
      STATUS="NO"
      while [ "$${STATUS}" != "" ]; do
