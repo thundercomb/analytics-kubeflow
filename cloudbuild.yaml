@@ -25,7 +25,7 @@ steps:
      curl -L -o kubeflow.yaml $${CONFIG_URI}
      kfctl build -V -f kubeflow.yaml
      find
-     rm -rf gcp_config
+     rm -rf gcp_config .cache
      kfctl apply -V -f kubeflow.yaml
      STATUS="NO"
      while [ "$${STATUS}" != "" ]; do
