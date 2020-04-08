@@ -4,9 +4,25 @@ steps:
   args:
   - '-c'
   - |
-     echo gcloud beta container clusters get-credentials ${_GKE_CLUSTER_NAME} --region ${_REGION} --project ${_ANALYTICS_PROJECT}
-     echo "Initialising, generating and applying configs ..."
-     echo kfctl apply -f ${_KFCTL_CONFIG}
+     echo "Preparing ..."
+
+     gcloud beta container clusters get-credentials ${_GKE_CLUSTER_NAME} --region ${_REGION} --project ${_ANALYTICS_PROJECT}
+     gcloud config set project ${_ANALYTICS_PROJECT}
+     gcloud config set compute/region ${_REGION}
+
+     CONFIG_URI="${_KFCTL_CONFIG}"
+     CLIENT_ID="${_OAUTH_CLIENT_ID}"
+     CLIENT_SECRET="${_OAUTH_CLIENT_SECRET}"
+     KF_NAME="kf-analytics"
+     BASE_DIR="/workspace/kf_deployments"
+     KF_DIR="$${BASE_DIR}/$${KF_NAME}"
+     export CONFIG_URI CLIENT_ID CLIENT_SECRET KF_NAME BASE_DIR KF_DIR
+
+     echo "Building and applying kubeflow config ..."
+
+     mkdir -p ${KF_DIR}
+     cd ${KF_DIR}
+     kfctl apply -V -f ${CONFIG_URI}
      STATUS="NO"
      while [ "$${STATUS}" != "" ]; do
        echo "Monitoring pods until they're all running, this could take a few minutes ..."
@@ -14,6 +30,7 @@ steps:
        echo "Status: $$STATUS"
        sleep 10
      done
+
      echo
      echo "SUCCESS: Now use this to get to kubeflow:"
      echo "kubectl port-forward -n istio-system svc/istio-ingressgateway 8080:80"
@@ -21,6 +38,6 @@ steps:
   dir: /workspace
 
 substitutions:
-  _KFCTL_CONFIG: https://raw.githubusercontent.com/kubeflow/kubeflow/v0.6-branch/bootstrap/config/kfctl_k8s_istio.0.6.2.yaml
+  _KFCTL_CONFIG: https://raw.githubusercontent.com/kubeflow/manifests/v1.0-branch/kfdef/kfctl_gcp_iap.v1.0.1.yaml
 
 timeout: "1600s"
