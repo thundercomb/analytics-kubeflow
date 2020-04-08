@@ -1,5 +1,5 @@
 steps:
-- name: "gcr.io/${PROJECT_ID}/kubeflow-tools"
+- name: "eu.gcr.io/${PROJECT_ID}/kubeflow-tools"
   entrypoint: /bin/sh
   args:
   - '-c'
