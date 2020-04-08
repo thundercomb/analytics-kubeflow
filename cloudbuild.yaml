@@ -13,7 +13,7 @@ steps:
      CONFIG_URI="${_KFCTL_CONFIG}"
      CLIENT_ID="${_OAUTH_CLIENT_ID}"
      CLIENT_SECRET="${_OAUTH_CLIENT_SECRET}"
-     KF_NAME="kf-analytics"
+     KF_NAME="${_GKE_CLUSTER_NAME}"
      BASE_DIR="/workspace/kf_deployments"
      KF_DIR="$${BASE_DIR}/$${KF_NAME}"
      export CONFIG_URI CLIENT_ID CLIENT_SECRET KF_NAME BASE_DIR KF_DIR
