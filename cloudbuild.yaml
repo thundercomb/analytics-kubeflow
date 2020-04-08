@@ -24,7 +24,7 @@ steps:
      cd $${KF_DIR}
      kfctl build -V -f $${CONFIG_URI}
      rm -rf gcp_config
-     kfctl apply -V -f $${CONFIG_URI}
+     kfctl apply -V
      STATUS="NO"
      while [ "$${STATUS}" != "" ]; do
        echo "Monitoring pods until they're all running, this could take a few minutes ..."
