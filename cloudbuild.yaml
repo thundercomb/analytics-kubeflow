@@ -1,0 +1,34 @@
+steps:
+- name: "gcr.io/${PROJECT_ID}/kubeflow-tools"
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+     echo gcloud beta container clusters get-credentials ${_GKE_CLUSTER_NAME} --region ${_REGION} --project ${_ANALYTICS_PROJECT}
+     echo "Initialising, generating and applying configs ..."
+     export CONFIG="https://raw.githubusercontent.com/kubeflow/kubeflow/v0.6-branch/bootstrap/config/kfctl_k8s_istio.0.6.2.yaml"
+     export KFAPP="kf-${PROJECT_ID}"
+     kfctl init $${KFAPP} --config=$${CONFIG} -V
+     cd $${KFAPP}
+     echo kfctl generate all -V
+     echo kfctl apply all -V
+     cd ..
+     STATUS="NO"
+     while [ "$${STATUS}" != "" ]; do
+       echo "Monitoring pods until they're all running, this could take a few minutes ..."
+       STATUS=$(kubectl get pods --all-namespaces | awk '($$4 != "Running" && $$4 != "Completed" && $$4 != "STATUS") { print $$4 }')
+       echo "Status: $$STATUS"
+       sleep 10
+     done
+     echo
+     echo "SUCCESS: Now use this to get to kubeflow:"
+     echo "kubectl port-forward -n istio-system svc/istio-ingressgateway 8080:80"
+     echo
+  dir: /workspace
+
+substitutions:
+  _GKE_CLUSTER_NAME:
+  _REGION:
+  _ANALYTICS_PROJECT:
+
+timeout: "1600s"
