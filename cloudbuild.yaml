@@ -20,9 +20,9 @@ steps:
 
      echo "Building and applying kubeflow config ..."
 
-     mkdir -p ${KF_DIR}
-     cd ${KF_DIR}
-     kfctl apply -V -f ${CONFIG_URI}
+     mkdir -p $${KF_DIR}
+     cd $${KF_DIR}
+     kfctl apply -V -f $${CONFIG_URI}
      STATUS="NO"
      while [ "$${STATUS}" != "" ]; do
        echo "Monitoring pods until they're all running, this could take a few minutes ..."
